@@ -16,6 +16,7 @@ public interface RmiService  extends Remote{
 
 //    void createEmployee(Employee employee) throws RemoteException;
     Employee retrieveEmployee(int employeeId) throws RemoteException;
+    List<Employee> retrieveAllEmployee() throws RemoteException;
     void updateEmployee(Employee employee) throws RemoteException;
     void deleteEmployee(int employeeId) throws RemoteException;
 
@@ -28,4 +29,5 @@ public interface RmiService  extends Remote{
     void createLeaveApplication(LeaveApplication leaveApplication) throws RemoteException;
     List<LeaveApplication> retrieveLeaveApplication(int userId) throws RemoteException;
     void updateLeaveApplication(LeaveApplication leaveApplication) throws RemoteException;
+    void resetLeaveApplications() throws  RemoteException;
 }

@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet; // Import for handling query results
 import java.sql.SQLException;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Employee implements Serializable{
     private static final long serialVersionUID = 1L; // This helps during deserialization
@@ -88,6 +90,28 @@ public class Employee implements Serializable{
         }
         return null;
     }
+    public static List<Employee> getAllEmployees(Connection con){
+        List<Employee> employees = new ArrayList<>();
+        String selectQuery = "SELECT * FROM public.employee";
+        try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Employee employee = new Employee(
+                        rs.getInt("user_id"),
+                        rs.getString("name"),
+                        rs.getDouble("salary"),
+                        rs.getInt("total_days_of_work"),
+                        rs.getInt("available_paid_leave"));
+                employees.add(employee);
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve payroll: " + e.getMessage());
+        }
+
+        return employees; // Return the list of Payroll records
+
+    }
     public int getUserId() {
         return userId;
     }
@@ -107,6 +131,23 @@ public class Employee implements Serializable{
     public int getAvailablePaidLeave() {
         return availablePaidLeave;
     }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setTotalDaysOfWork(int totalDaysOfWork) {
+        this.totalDaysOfWork = totalDaysOfWork;
+    }
+
+    public void setAvailablePaidLeave(int availablePaidLeave) {
+        this.availablePaidLeave = availablePaidLeave;
+    }
+
+    public void setSalary(double salary) {
+        this.salary = salary;
+    }
+    
 
     // Disable delete function by commenting it out
     

@@ -23,7 +23,8 @@ public class RmiServiceImplement extends UnicastRemoteObject implements RmiServi
         int userId = User.createUser(con, user);
         System.out.println("User created with ID: " + userId);
     }
-
+    
+    @Override
     public List<User> retrieveAllUser() throws RemoteException{
         return User.getAllUser(con);
     }
@@ -57,6 +58,11 @@ public class RmiServiceImplement extends UnicastRemoteObject implements RmiServi
     public Employee retrieveEmployee(int employeeId) throws RemoteException {
         return Employee.getEmployeeById(con, employeeId);
     }
+    @Override
+    public List<Employee> retrieveAllEmployee() throws RemoteException{
+        return Employee.getAllEmployees(con);
+    }
+
 
     @Override
     public void updateEmployee(Employee employee) throws RemoteException {
@@ -81,7 +87,7 @@ public class RmiServiceImplement extends UnicastRemoteObject implements RmiServi
     public Payroll retrievePayrollByPayRollId(int payrollId) throws RemoteException {
         return Payroll.getPayrollByPayrollId(con, payrollId);
     }
-    
+    @Override
     public List<Payroll> retrievePayrollByUserId(int userId) throws RemoteException {
         return Payroll.retrievePayrollByUserId(con, userId);
     }
@@ -114,6 +120,11 @@ public class RmiServiceImplement extends UnicastRemoteObject implements RmiServi
     public void updateLeaveApplication(LeaveApplication leaveApplication) throws RemoteException {
         LeaveApplication.updateLeaveStatus(con, leaveApplication);
         System.out.println("Leave Application updated: " + leaveApplication.getUserId());
+    }
+    
+    @Override
+    public void resetLeaveApplications() throws RemoteException {
+        LeaveApplication.resetLeaveApplications(con); // 'con' is your database connection
     }
 
 //    @Override

@@ -126,4 +126,19 @@ public class LeaveApplication implements Serializable {
             System.out.println("Failed to update leave status: " + e.getMessage());
         }
     }
+    
+    public static void resetLeaveApplications(Connection con) {
+        String resetQuery = "DELETE FROM leave_application"; // Deletes all records
+
+        try (PreparedStatement pstmt = con.prepareStatement(resetQuery)) {
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Leave applications reset successfully!");
+            } else {
+                System.out.println("No leave applications to reset.");
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to reset leave applications: " + e.getMessage());
+        }
+    }
 }
