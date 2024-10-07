@@ -2,11 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.database;
+package com.dcom;
 //import java.io.ObjectInputStream;
 //import java.io.ObjectOutputStream;
 //import java.net.Socket;
 //import java.util.Scanner;
+import com.dcom.dataModel.User;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Client {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099); // Change "localhost" to server address if needed
 
             // Retrieve the DataService from the registry
-            RmiService rmiService = (RmiService) registry.lookup("DatabaseService");
+            DataRetrievalInterface rmiService = (DataRetrievalInterface) registry.lookup("Server");
 
 
 //            User user = rmiService.retrieveUser(2);

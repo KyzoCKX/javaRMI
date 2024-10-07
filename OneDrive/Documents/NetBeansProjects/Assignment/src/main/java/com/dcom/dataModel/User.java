@@ -1,4 +1,4 @@
-package com.database;
+package com.dcom.dataModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

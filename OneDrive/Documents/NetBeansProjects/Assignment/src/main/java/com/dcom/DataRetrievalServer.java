@@ -2,17 +2,21 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.database;
+package com.dcom;
+import com.dcom.dataModel.User;
+import com.dcom.dataModel.Payroll;
+import com.dcom.dataModel.Employee;
+import com.dcom.dataModel.LeaveApplication;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.util.List;
 
 
-public class RmiServiceImplement extends UnicastRemoteObject implements RmiService{
+public class DataRetrievalServer extends UnicastRemoteObject implements DataRetrievalInterface{
     private Connection con;
 
-    public RmiServiceImplement(Connection con) throws RemoteException {
+    public DataRetrievalServer(Connection con) throws RemoteException {
         super();
         this.con = con; // Initialize the database connection
     }

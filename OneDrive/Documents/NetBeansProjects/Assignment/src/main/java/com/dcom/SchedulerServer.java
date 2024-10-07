@@ -1,5 +1,7 @@
 
-package com.database;
+package com.dcom;
+import com.dcom.dataModel.Payroll;
+import com.dcom.dataModel.Employee;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.time.LocalDate;
@@ -8,13 +10,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class SchedulerClient {
-    private RmiService databaseService;
+public class SchedulerServer {
+    private DataRetrievalInterface databaseService;
 
-    public SchedulerClient() {
+    public SchedulerServer() {
         try {
             Registry registry = LocateRegistry.getRegistry("localhost", 1099);
-            databaseService = (RmiService) registry.lookup("DatabaseService");
+            databaseService = (DataRetrievalInterface) registry.lookup("Server");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -88,7 +90,7 @@ public class SchedulerClient {
     }
 
     public static void main(String[] args) {
-        SchedulerClient schedulerClient = new SchedulerClient();
+        SchedulerServer schedulerClient = new SchedulerServer();
         schedulerClient.startScheduler();
     }
 }

@@ -2,12 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
  */
-package com.database;
+package com.dcom;
+import com.dcom.dataModel.User;
+import com.dcom.dataModel.Payroll;
+import com.dcom.dataModel.Employee;
+import com.dcom.dataModel.LeaveApplication;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface RmiService  extends Remote{
+public interface DataRetrievalInterface  extends Remote{
     void createUser(User user) throws RemoteException;
     User retrieveUser(int userId) throws RemoteException;
     List<User> retrieveAllUser() throws RemoteException;

@@ -1,4 +1,4 @@
-package com.database;
+package com.dcom.dataModel;
 
 import java.io.Serializable;
 import java.sql.Connection;

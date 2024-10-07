@@ -1,4 +1,4 @@
-package com.database;
+package com.dcom;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.sql.Connection;
@@ -7,15 +7,15 @@ import java.sql.Connection;
 //import java.net.Socket;
 //import java.io.ObjectInputStream;
 
-public class Server{
+public class Register{
 
     public static void main(String[] args) {
         Connection con = PostgreCon.getConnection();
 
         try {
-            RmiService dataService = new RmiServiceImplement(con);
+            DataRetrievalInterface dataService = new DataRetrievalServer(con);
             Registry registry = LocateRegistry.createRegistry(1099); // Default RMI port
-            registry.rebind("DatabaseService", dataService);
+            registry.rebind("Server", dataService);
             System.out.println("RMI Server is running...");
         } catch (Exception e) {
             e.printStackTrace();
@@ -25,7 +25,7 @@ public class Server{
 }
 //        Connection con = PostgreCon.getConnection();
 //        try (ServerSocket serverSocket = new ServerSocket(12345)) {
-//            System.out.println("Server is running and waiting for a connection...");
+//            System.out.println("Register is running and waiting for a connection...");
 //            Socket clientSocket = serverSocket.accept();
 //            System.out.println("Client connected.");
 //            // Create input/output streams
