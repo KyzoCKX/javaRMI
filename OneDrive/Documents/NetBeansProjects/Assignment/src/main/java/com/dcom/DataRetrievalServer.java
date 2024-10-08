@@ -50,6 +50,17 @@ public class DataRetrievalServer extends UnicastRemoteObject implements DataRetr
         User.deleteUser(con, userId);
         System.out.println("User deleted with ID: " + userId);
     }
+    
+    @Override
+    public boolean getUserByUserIdAndPassword(int userId, String pwd, String userType){
+        return User.getUserByUserIdAndPassword(con, userId, pwd, userType);
+    }
+    
+    @Override
+    public boolean getUserByEmailAndPassword(String email, String pwd, String userType) throws RemoteException{
+        return User.getUserByEmailAndPassword(con, email, pwd, userType);
+    }
+
 
     // Employee Methods
 //    @Override

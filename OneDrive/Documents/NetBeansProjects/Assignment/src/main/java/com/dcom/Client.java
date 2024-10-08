@@ -33,7 +33,7 @@ public class Client {
                 
             List<User> users = rmiService.retrieveAllUser();
                 for (User user : users) {
-                    System.out.println("User ID: " + user.getUserId()+ ", User Passwords " + user.getPwd());
+                    System.out.println("User ID: " + user.getUserId()+ ", User Email: "+ user.getEmail()+", User Passwords " + user.getPwd());
             }
         } catch (Exception e) {
             e.printStackTrace();

@@ -14,20 +14,31 @@ public class User implements Serializable{
     private String pwd;
     private String status;
     private String userType;
+    private String email;
 
     // Constructor for creating a user (userId will be auto-generated)
-    public User(String pwd, String status, String userType) {
+    public User(String pwd, String status, String userType, String email) {
         this.pwd = pwd;
         this.status = status;
         this.userType = userType;
+        this.email = email;
     }
 
     // Constructor for retrieving a user
-    public User(int userId, String pwd, String status, String userType) {
+    public User(int userId, String pwd, String status, String userType, String email) {
         this.userId = userId;
         this.pwd = pwd;
         this.status = status;
         this.userType = userType;
+        this.email = email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
     }
 
     // Getters and Setters
@@ -65,11 +76,13 @@ public class User implements Serializable{
 
     // Method to insert a user into the database
     public static int createUser(Connection con, User user) {
-        String insertQuery = "INSERT INTO public.user (pwd, status, userType) VALUES (?, ?, ?) RETURNING user_id";
+        String insertQuery = "INSERT INTO public.user (pwd, status, userType, email) VALUES (?, ?, ?) RETURNING user_id";
         try (PreparedStatement pstmt = con.prepareStatement(insertQuery)) {
             pstmt.setString(1, user.getPwd());
             pstmt.setString(2, user.getStatus());
             pstmt.setString(3, user.getUserType());
+            pstmt.setString(4, user.getEmail());
+
 
             // Execute the insert and retrieve the generated userId
             ResultSet rs = pstmt.executeQuery();
@@ -94,7 +107,9 @@ public class User implements Serializable{
                 return new User(rs.getInt("user_id"),
                                 rs.getString("pwd"),
                                 rs.getString("status"),
-                                rs.getString("userType"));
+                                rs.getString("userType"),
+                                rs.getString("email")
+                );
             }
         } catch (SQLException e) {
             System.out.println("Failed to retrieve user: " + e.getMessage());
@@ -113,7 +128,8 @@ public class User implements Serializable{
                         rs.getInt("user_id"),
                                 rs.getString("pwd"),
                                 rs.getString("status"),
-                                rs.getString("userType"));
+                                rs.getString("userType"),                                
+                                rs.getString("email"));
                 userList.add(user);
             }
         } catch (SQLException e) {
@@ -154,5 +170,36 @@ public class User implements Serializable{
         } catch (SQLException e) {
             System.out.println("Failed to delete user: " + e.getMessage());
         }
+    }
+    
+    public static boolean getUserByUserIdAndPassword(Connection con, int userId, String pwd, String userType){
+        String selectQuery = "SELECT * FROM public.user WHERE user_id = ? AND pwd = ? AND userType = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, pwd);
+            pstmt.setString(3, userType);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve payroll: " + e.getMessage());
+        }
+        return false;
+    }
+        public static boolean getUserByEmailAndPassword(Connection con, String email, String pwd, String userType){
+        String selectQuery = "SELECT * FROM public.user WHERE user_id = ? AND pwd = ? AND userType = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
+            pstmt.setString(1, email);
+            pstmt.setString(2, pwd);
+            pstmt.setString(3, userType);
+            ResultSet rs = pstmt.executeQuery();
+            if(rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve payroll: " + e.getMessage());
+        }
+        return false;
     }
 }
