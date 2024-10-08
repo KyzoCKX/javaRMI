@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 public class User implements Serializable{
+    private static final long serialVersionUID = 1L;
 
     private int userId; // Will be auto-generated
     private String pwd;
@@ -187,19 +188,27 @@ public class User implements Serializable{
         }
         return false;
     }
-        public static boolean getUserByEmailAndPassword(Connection con, String email, String pwd, String userType){
-        String selectQuery = "SELECT * FROM public.user WHERE user_id = ? AND pwd = ? AND userType = ?";
+    public static User getUserByEmailAndPassword(Connection con, String email, String pwd, String userType) {
+        String selectQuery = "SELECT * FROM public.user WHERE email = ? AND pwd = ? AND userType = ?";
         try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
             pstmt.setString(1, email);
             pstmt.setString(2, pwd);
             pstmt.setString(3, userType);
+
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
-                return true;
+            if (rs.next()) {
+                return new User(
+                    rs.getInt("user_id"),
+                    rs.getString("email"),
+                    rs.getString("pwd"),
+                    rs.getString("userType"),
+                    rs.getString("status") 
+                );
             }
         } catch (SQLException e) {
-            System.out.println("Failed to retrieve payroll: " + e.getMessage());
+            System.out.println("Failed to retrieve user: " + e.getMessage());
         }
-        return false;
+        return null; // Return null if no user is found
     }
+
 }

@@ -57,7 +57,7 @@ public class DataRetrievalServer extends UnicastRemoteObject implements DataRetr
     }
     
     @Override
-    public boolean getUserByEmailAndPassword(String email, String pwd, String userType) throws RemoteException{
+    public User getUserByEmailAndPassword(String email, String pwd, String userType) throws RemoteException{
         return User.getUserByEmailAndPassword(con, email, pwd, userType);
     }
 

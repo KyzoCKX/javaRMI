@@ -18,7 +18,7 @@ public interface DataRetrievalInterface  extends Remote{
     void updateUser(User user) throws RemoteException;
     void deleteUser(int userId) throws RemoteException;
     boolean getUserByUserIdAndPassword(int userId, String pwd, String userType) throws RemoteException;
-    boolean getUserByEmailAndPassword(String email, String pwd, String userType) throws RemoteException;
+    User getUserByEmailAndPassword(String email, String pwd, String userType) throws RemoteException;
     
 //    void createEmployee(Employee employee) throws RemoteException;
     Employee retrieveEmployee(int employeeId) throws RemoteException;
