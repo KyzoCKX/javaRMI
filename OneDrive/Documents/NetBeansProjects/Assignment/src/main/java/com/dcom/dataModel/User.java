@@ -199,10 +199,11 @@ public class User implements Serializable{
             if (rs.next()) {
                 return new User(
                     rs.getInt("user_id"),
-                    rs.getString("email"),
                     rs.getString("pwd"),
+                    rs.getString("status") ,
                     rs.getString("userType"),
-                    rs.getString("status") 
+                    rs.getString("email")
+
                 );
             }
         } catch (SQLException e) {
