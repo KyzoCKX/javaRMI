@@ -2,6 +2,7 @@
 package com.dcom;
 import com.dcom.dataModel.Payroll;
 import com.dcom.dataModel.Employee;
+import com.dcom.dataModel.SalaryClass;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.time.LocalDate;
@@ -48,8 +49,14 @@ public class SchedulerServer {
             List<Employee> employees = databaseService.retrieveAllEmployee(); 
             for (Employee employee : employees) {
                 double salary = employee.getSalary(); 
-                double tax = salary * 0.10; // 10% tax
-                double totalPaid = salary - tax;
+            if (salary == 0) {
+                continue; 
+            }
+            SalaryClass salaryClass = databaseService.getSalaryClassBySalary(salary);
+            
+                double tax = salary * salaryClass.getTaxPercentage(); // tax that need to be deduct
+                double epf = salary * salaryClass.getEpfPercentage();
+                double totalPaid = salary - tax - epf;
 
                 Payroll payroll = new Payroll(
                         employee.getUserId(),
@@ -57,8 +64,8 @@ public class SchedulerServer {
                         totalPaid,
                         false, // paid status initially false
                         tax,
-                        "A", // Assuming salary class is "A" or it can be dynamic
-                        10, // Assuming percentage 10
+                        salaryClass.getSalaryClass(), // Assuming salary class is "A" or it can be dynamic
+                        epf, // Assuming percentage 10
                         java.sql.Date.valueOf(LocalDate.now()) // Today's date
                 );
                 
@@ -80,6 +87,9 @@ public class SchedulerServer {
             // Reset available paid leave for all employees
             List<Employee> employees = databaseService.retrieveAllEmployee(); 
             for (Employee employee : employees) {
+                if(employee.getAvailablePaidLeave() == 10){
+                    continue;
+                }
                 employee.setAvailablePaidLeave(10); // Reset available paid leave to 10
                 databaseService.updateEmployee(employee); // Update employee's leave
                 System.out.println("Available paid leave reset for employee ID: " + employee.getUserId());

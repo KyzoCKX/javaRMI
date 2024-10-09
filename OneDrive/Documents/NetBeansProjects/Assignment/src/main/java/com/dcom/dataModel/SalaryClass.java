@@ -1,10 +1,12 @@
 
 package com.dcom.dataModel;
+import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-public class SalaryClass {
+public class SalaryClass  implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String salaryClass;
     private double threshold;
     private double taxPercentage;
@@ -53,7 +55,7 @@ public class SalaryClass {
 
     // Static method to retrieve a SalaryClass by passing a salary
     public static SalaryClass getSalaryClassBySalary(Connection con, double salary) {
-        String selectQuery = "SELECT * FROM salary_class WHERE threshold <= ? ORDER BY threshold DESC LIMIT 1";
+        String selectQuery = "SELECT * FROM salary_class WHERE threshold >= ? ORDER BY threshold ASC LIMIT 1";
         try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
             pstmt.setDouble(1, salary);
             ResultSet rs = pstmt.executeQuery();

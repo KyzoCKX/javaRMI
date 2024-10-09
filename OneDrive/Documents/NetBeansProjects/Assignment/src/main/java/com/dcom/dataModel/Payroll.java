@@ -20,29 +20,29 @@ public class Payroll implements Serializable {
     private boolean paid; // True if paid, false if not
     private double tax;
     private String salaryClass; // Example: "A", "B", etc.
-    private double percentage; // Tax or other percentage
+    private double epf; // Changed from percentage to epf
     private Date date;
 
     // Constructor for creating a new payroll entry
-    public Payroll(int userId, double totalPaid, boolean paid, double tax, String salaryClass, double percentage, Date date) {
+    public Payroll(int userId, double totalPaid, boolean paid, double tax, String salaryClass, double epf, Date date) {
         this.userId = userId;
         this.totalPaid = totalPaid;
         this.paid = paid;
         this.tax = tax;
         this.salaryClass = salaryClass;
-        this.percentage = percentage;
+        this.epf = epf;
         this.date = date;
     }
 
     // Constructor for retrieving an existing payroll entry
-    public Payroll(int userId, int payrollId, double totalPaid, boolean paid, double tax, String salaryClass, double percentage, Date date) {
+    public Payroll(int userId, int payrollId, double totalPaid, boolean paid, double tax, String salaryClass, double epf, Date date) {
         this.userId = userId;
         this.payrollId = payrollId;
         this.totalPaid = totalPaid;
         this.paid = paid;
         this.tax = tax;
         this.salaryClass = salaryClass;
-        this.percentage = percentage;
+        this.epf = epf;
         this.date = date;
     }
 
@@ -87,12 +87,12 @@ public class Payroll implements Serializable {
         this.salaryClass = salaryClass;
     }
 
-    public double getPercentage() {
-        return percentage;
+    public double getEpf() { // Renamed from getPercentage to getEpf
+        return epf;
     }
 
-    public void setPercentage(double percentage) {
-        this.percentage = percentage;
+    public void setEpf(double epf) { // Renamed from setPercentage to setEpf
+        this.epf = epf;
     }
 
     public Date getDate() {
@@ -105,14 +105,14 @@ public class Payroll implements Serializable {
 
     // Method to insert a payroll record into the database
     public static void createPayroll(Connection con, Payroll payroll) {
-        String insertQuery = "INSERT INTO payroll (user_id, total_paid, paid, tax, salary_class, percentage, date) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO payroll (user_id, total_paid, paid, tax, salary_class, epf, date) VALUES (?, ?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insertQuery)) {
             pstmt.setInt(1, payroll.getUserId());
             pstmt.setDouble(2, payroll.getTotalPaid());
             pstmt.setBoolean(3, payroll.isPaid());
             pstmt.setDouble(4, payroll.getTax());
             pstmt.setString(5, payroll.getSalaryClass());
-            pstmt.setDouble(6, payroll.getPercentage());
+            pstmt.setDouble(6, payroll.getEpf()); // Updated field from percentage to epf
             pstmt.setDate(7, payroll.getDate());
 
             int rowsInserted = pstmt.executeUpdate();
@@ -139,7 +139,7 @@ public class Payroll implements Serializable {
                         rs.getBoolean("paid"),
                         rs.getDouble("tax"),
                         rs.getString("salary_class"),
-                        rs.getDouble("percentage"),
+                        rs.getDouble("epf"), // Updated field from percentage to epf
                         rs.getDate("date")
                 );
             }
@@ -148,8 +148,8 @@ public class Payroll implements Serializable {
         }
         return null; // No record found
     }
-    
-    public static List<Payroll> retrievePayrollByUserId(Connection con,int userId) throws RemoteException {
+
+    public static List<Payroll> retrievePayrollByUserId(Connection con, int userId) throws RemoteException {
         List<Payroll> payrollList = new ArrayList<>();
         String selectQuery = "SELECT * FROM payroll WHERE user_id = ?";
 
@@ -165,7 +165,7 @@ public class Payroll implements Serializable {
                         rs.getBoolean("paid"),
                         rs.getDouble("tax"),
                         rs.getString("salary_class"),
-                        rs.getDouble("percentage"),
+                        rs.getDouble("epf"), // Updated field from percentage to epf
                         rs.getDate("date")
                 );
                 payrollList.add(payroll);
@@ -179,13 +179,13 @@ public class Payroll implements Serializable {
 
     // Method to update payroll details
     public static void updatePayroll(Connection con, Payroll payroll) {
-        String updateQuery = "UPDATE payroll SET total_paid = ?, paid = ?, tax = ?, salary_class = ?, percentage = ?, date = ? WHERE payroll_id = ?";
+        String updateQuery = "UPDATE payroll SET total_paid = ?, paid = ?, tax = ?, salary_class = ?, epf = ?, date = ? WHERE payroll_id = ?";
         try (PreparedStatement pstmt = con.prepareStatement(updateQuery)) {
             pstmt.setDouble(1, payroll.getTotalPaid());
             pstmt.setBoolean(2, payroll.isPaid());
             pstmt.setDouble(3, payroll.getTax());
             pstmt.setString(4, payroll.getSalaryClass());
-            pstmt.setDouble(5, payroll.getPercentage());
+            pstmt.setDouble(5, payroll.getEpf()); // Updated field from percentage to epf
             pstmt.setDate(6, payroll.getDate());
             pstmt.setInt(7, payroll.getPayrollId());
 
