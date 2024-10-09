@@ -1,4 +1,5 @@
 com\dcom\Client.class
+com\dcom\dataModel\SalaryClass.class
 com\dcom\DataRetrievalServer.class
 com\dcom\SchedulerServer.class
 com\dcom\dataModel\LeaveApplication.class

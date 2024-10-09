@@ -11,6 +11,7 @@ import com.dcom.dataModel.User;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
+import javax.swing.text.PasswordView;
 
 public class Client {
 
@@ -30,11 +31,13 @@ public class Client {
 //                for (Payroll payroll : payrolls) {
 //                    System.out.println("Payroll ID: " + payroll.getPayrollId() + ", Total Paid: " + payroll.getTotalPaid());
 //            }
-              User user =  rmiService.getUserByEmailAndPassword("2@gmail.com", "password456", "employee");
-              if(user == null){
+
+              int user_id =  rmiService.createUser(new User("testing1", "active", "employee", "testing1@gmail.com"));
+              if(user_id == 0){
                   System.err.println("Null");
               }
-              System.err.println(user.getEmail() + " pwd" + user.getPwd() + " status" + user.getStatus() + " user type" + user.getUserType());
+              System.err.println(user_id);
+//              System.err.println(user.getEmail() + " pwd" + user.getPwd() + " status" + user.getStatus() + " user type" + user.getUserType());
 //            List<User> users = rmiService.retrieveAllUser();
 //                for (User user : users) {
 //                    System.out.println("User ID: " + user.getUserId()+ ", User Email: "+ user.getEmail()+", User Passwords " + user.getPwd());

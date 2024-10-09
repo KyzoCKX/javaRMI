@@ -77,7 +77,7 @@ public class User implements Serializable{
 
     // Method to insert a user into the database
     public static int createUser(Connection con, User user) {
-        String insertQuery = "INSERT INTO public.user (pwd, status, userType, email) VALUES (?, ?, ?) RETURNING user_id";
+        String insertQuery = "INSERT INTO public.user (pwd, status, userType, email) VALUES (?, ?, ?, ?) RETURNING user_id";
         try (PreparedStatement pstmt = con.prepareStatement(insertQuery)) {
             pstmt.setString(1, user.getPwd());
             pstmt.setString(2, user.getStatus());

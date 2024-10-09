@@ -11,7 +11,6 @@ public class Register{
 
     public static void main(String[] args) {
         Connection con = PostgreCon.getConnection();
-
         try {
             DataRetrievalInterface dataService = new DataRetrievalServer(con);
             Registry registry = LocateRegistry.createRegistry(1099); // Default RMI port

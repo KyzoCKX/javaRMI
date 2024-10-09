@@ -7,33 +7,42 @@ import com.dcom.dataModel.User;
 import com.dcom.dataModel.Payroll;
 import com.dcom.dataModel.Employee;
 import com.dcom.dataModel.LeaveApplication;
+import com.dcom.dataModel.SalaryClass;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.List;
 
-public interface DataRetrievalInterface  extends Remote{
-    void createUser(User user) throws RemoteException;
+public interface DataRetrievalInterface extends Remote {
+    //user class
+    int createUser(User user) throws RemoteException;
     User retrieveUser(int userId) throws RemoteException;
     List<User> retrieveAllUser() throws RemoteException;
-    void updateUser(User user) throws RemoteException;
-    void deleteUser(int userId) throws RemoteException;
+    boolean updateUser(User user) throws RemoteException;
+    boolean deleteUser(int userId) throws RemoteException;
     boolean getUserByUserIdAndPassword(int userId, String pwd, String userType) throws RemoteException;
     User getUserByEmailAndPassword(String email, String pwd, String userType) throws RemoteException;
     
-//    void createEmployee(Employee employee) throws RemoteException;
+    // employee class
     Employee retrieveEmployee(int employeeId) throws RemoteException;
     List<Employee> retrieveAllEmployee() throws RemoteException;
-    void updateEmployee(Employee employee) throws RemoteException;
-    void deleteEmployee(int employeeId) throws RemoteException;
+    boolean updateEmployee(Employee employee) throws RemoteException;
+    boolean deleteEmployee(int employeeId) throws RemoteException;
 
-    void createPayroll(Payroll payroll) throws RemoteException;
+    //pay roll class
+    boolean createPayroll(Payroll payroll) throws RemoteException;
     Payroll retrievePayrollByPayRollId(int payrollId) throws RemoteException;
     List<Payroll> retrievePayrollByUserId(int userId) throws RemoteException;
-    void updatePayroll(Payroll payroll) throws RemoteException;
-    void deletePayroll(int payrollId) throws RemoteException;
+    boolean updatePayroll(Payroll payroll) throws RemoteException;
+    boolean deletePayroll(int payrollId) throws RemoteException;
 
-    void createLeaveApplication(LeaveApplication leaveApplication) throws RemoteException;
+    // leave application class
+    boolean createLeaveApplication(LeaveApplication leaveApplication) throws RemoteException;
     List<LeaveApplication> retrieveLeaveApplication(int userId) throws RemoteException;
-    void updateLeaveApplication(LeaveApplication leaveApplication) throws RemoteException;
-    void resetLeaveApplications() throws  RemoteException;
+    boolean updateLeaveApplication(LeaveApplication leaveApplication) throws RemoteException;
+    boolean resetLeaveApplications() throws RemoteException;
+    
+    // salary class
+    SalaryClass getSalaryClassBySalary(double salary) throws RemoteException;
+    boolean updateSalaryClass(SalaryClass salaryClass) throws RemoteException;
 }
+
