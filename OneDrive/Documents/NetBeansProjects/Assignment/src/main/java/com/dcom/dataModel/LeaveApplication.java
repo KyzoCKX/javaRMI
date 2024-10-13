@@ -98,7 +98,7 @@ public class LeaveApplication implements Serializable {
 
             while (rs.next()) {
                 LeaveApplication leaveApplication = new LeaveApplication(
-                        rs.getInt("leaveApplication_id"),
+                        rs.getInt("leave_application_id"),
                         rs.getInt("user_id"),
                         rs.getDate("date"),
                         rs.getInt("number_of_days"),
@@ -155,7 +155,7 @@ public class LeaveApplication implements Serializable {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 LeaveApplication leaveApplication = new LeaveApplication(
-                        rs.getInt("leaveApplication_id"),
+                        rs.getInt("leave_application_id"),
                         rs.getInt("user_id"),
                         rs.getDate("date"),
                         rs.getInt("number_of_days"),
@@ -171,13 +171,13 @@ public class LeaveApplication implements Serializable {
     }
 
     public static LeaveApplication getLeaveApplicationByLeaveApplicationId(Connection con, int leaveApplicationId) {
-        String selectQuery = "SELECT * FROM leave_application Where leaveApplication_id = ?";
+        String selectQuery = "SELECT * FROM leave_application Where leave_application_id = ?";
         try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
             pstmt.setInt(1, leaveApplicationId);
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 return new LeaveApplication(
-                        rs.getInt("leaveApplication_id"),
+                        rs.getInt("leave_application_id"),
                         rs.getInt("user_id"),
                         rs.getDate("date"),
                         rs.getInt("number_of_days"),
@@ -192,7 +192,7 @@ public class LeaveApplication implements Serializable {
     }
 
     public static boolean deleteLeaveApplication(Connection con, int leaveApplicationId) {
-        String deleteQuery = "DELETE FROM leave_application WHERE leaveApplication_id = ?"; // Deletes all records
+        String deleteQuery = "DELETE FROM leave_application WHERE leave_application_id = ?"; // Deletes all records
 
         try (PreparedStatement pstmt = con.prepareStatement(deleteQuery)) {
             pstmt.setInt(1, leaveApplicationId);
@@ -223,7 +223,7 @@ public class LeaveApplication implements Serializable {
             ResultSet rs = pstmt.executeQuery();
             while (rs.next()) {
                 LeaveApplication leaveApplication = new LeaveApplication(
-                        rs.getInt("leaveApplication_id"),
+                        rs.getInt("leave_application_id"),
                         rs.getInt("user_id"),
                         rs.getDate("date"),
                         rs.getInt("number_of_days"),
@@ -239,10 +239,4 @@ public class LeaveApplication implements Serializable {
 
         return leaveApplications;
     }
-
-
-
-
-
-
 }

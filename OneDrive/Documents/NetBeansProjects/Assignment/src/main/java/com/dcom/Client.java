@@ -8,6 +8,8 @@ package com.dcom;
 //import java.net.Socket;
 //import java.util.Scanner;
 import com.dcom.dataModel.User;
+import com.dcom.dataModel.LeaveApplication;
+
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.List;
@@ -22,7 +24,14 @@ public class Client {
 
             // Retrieve the DataService from the registry
             DataRetrievalInterface rmiService = (DataRetrievalInterface) registry.lookup("Server");
-
+            
+//            List<LeaveApplication> applications = rmiService.retrieveLeaveApplication();
+//           for(LeaveApplication application : applications){
+//                System.err.println(application.getLeaveApplicationId());
+//
+//           }
+            LeaveApplication app = rmiService.getLeaveApplicationByLeaveApplicationId(1);
+            System.out.println(app.getLeaveApplicationId());
 
 //            User user = rmiService.retrieveUser(2);
 //            System.out.println("Retrieved User: " + user.getPwd());
