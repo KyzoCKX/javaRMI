@@ -48,12 +48,12 @@ public class SchedulerServer {
         try {
             List<Employee> employees = databaseService.retrieveAllEmployee(); 
             for (Employee employee : employees) {
-                double salary = employee.getSalary(); 
-            if (salary == 0) {
-                continue; 
-            }
-            SalaryClass salaryClass = databaseService.getSalaryClassBySalary(salary);
-            
+                double salary = employee.getSalary();
+                if (salary == 0) {
+                    continue;
+                }
+                SalaryClass salaryClass = databaseService.getSalaryClassBySalary(salary);
+
                 double tax = salary * salaryClass.getTaxPercentage(); // tax that need to be deduct
                 double epf = salary * salaryClass.getEpfPercentage();
                 double totalPaid = salary - tax - epf;
@@ -68,9 +68,9 @@ public class SchedulerServer {
                         epf, // Assuming percentage 10
                         java.sql.Date.valueOf(LocalDate.now()) // Today's date
                 );
-                
+
                 // Call RMI service to create payroll
-                databaseService.createPayroll(payroll); 
+                databaseService.createPayroll(payroll);
                 System.out.println("Payroll created for user ID: " + employee.getUserId());
             }
         } catch (Exception e) {
@@ -82,7 +82,7 @@ public class SchedulerServer {
     private void resetLeaveAndPaidLeaveForEmployees() {
         try {
             // Reset leave_application table
-            databaseService.resetLeaveApplications(); 
+            //databaseService.resetLeaveApplications();
 
             // Reset available paid leave for all employees
             List<Employee> employees = databaseService.retrieveAllEmployee(); 

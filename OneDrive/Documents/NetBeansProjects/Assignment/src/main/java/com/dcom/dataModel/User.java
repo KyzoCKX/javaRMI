@@ -76,7 +76,7 @@ public class User implements Serializable{
     }
 
     // Method to insert a user into the database
-    public static int createUser(Connection con, User user) {
+    public static int createUser(Connection con, User user, String name, double salary, int totalDaysOfWork, int availablePaidLeave) {
         String insertQuery = "INSERT INTO public.user (pwd, status, userType, email) VALUES (?, ?, ?, ?) RETURNING user_id";
         try (PreparedStatement pstmt = con.prepareStatement(insertQuery)) {
             pstmt.setString(1, user.getPwd());
@@ -88,7 +88,7 @@ public class User implements Serializable{
             // Execute the insert and retrieve the generated userId
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
-                Employee.createEmployee(con, rs.getInt("user_id")); // Assuming createEmployee returns the generated employee ID
+                Employee.createEmployee(con, rs.getInt("user_id"), name, salary, totalDaysOfWork, availablePaidLeave); // Assuming createEmployee returns the generated employee ID
                 return rs.getInt("user_id"); // Return the generated userId
             }
         } catch (SQLException e) {
@@ -211,5 +211,47 @@ public class User implements Serializable{
         }
         return null; // Return null if no user is found
     }
+
+
+
+    public static int getUserCountByEmail(Connection con, String email) {
+        String selectQuery = "SELECT COUNT(*) AS user_count FROM public.user WHERE email = ?";
+
+        try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
+            pstmt.setString(1, email);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("user_count");
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve user count: " + e.getMessage());
+        }
+
+        return 0;
+    }
+
+    public static User getUserByEmail(Connection con, String email) {
+        String selectQuery = "SELECT * FROM public.user WHERE email = ? AND pwd = ? AND userType = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
+            pstmt.setString(1, email);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return new User(
+                        rs.getInt("user_id"),
+                        rs.getString("pwd"),
+                        rs.getString("status") ,
+                        rs.getString("userType"),
+                        rs.getString("email")
+
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve user: " + e.getMessage());
+        }
+        return null; // Return null if no user is found
+    }
+
+
 
 }

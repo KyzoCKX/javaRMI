@@ -211,4 +211,32 @@ public class Payroll implements Serializable {
             System.out.println("Failed to delete payroll record: " + e.getMessage());
         }
     }
+
+
+    public static List<Payroll> getPayrollList(Connection con) throws RemoteException {
+        List<Payroll> payrollList = new ArrayList<>();
+        String selectQuery = "SELECT * FROM payroll";
+
+        try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
+            ResultSet rs = pstmt.executeQuery();
+
+            while (rs.next()) {
+                Payroll payroll = new Payroll(
+                        rs.getInt("user_id"),
+                        rs.getInt("payroll_id"),
+                        rs.getDouble("total_paid"),
+                        rs.getBoolean("paid"),
+                        rs.getDouble("tax"),
+                        rs.getString("salary_class"),
+                        rs.getDouble("epf"),
+                        rs.getDate("date")
+                );
+                payrollList.add(payroll);
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve payroll: " + e.getMessage());
+        }
+
+        return payrollList;
+    }
 }

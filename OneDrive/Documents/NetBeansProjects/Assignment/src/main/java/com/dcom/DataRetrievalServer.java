@@ -11,6 +11,7 @@ import com.dcom.dataModel.LeaveApplication;
 import java.rmi.server.UnicastRemoteObject;
 import java.rmi.RemoteException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.util.List;
 
 public class DataRetrievalServer extends UnicastRemoteObject implements DataRetrievalInterface {
@@ -23,15 +24,25 @@ public class DataRetrievalServer extends UnicastRemoteObject implements DataRetr
 
     // User Methods
     @Override
-    public int createUser(User user) throws RemoteException {
+    public int createUser(User user, String name, double salary, int totalDaysOfWork, int availablePaidLeave) throws RemoteException {
         try {
-            int userId = User.createUser(con, user);
+            int userId = User.createUser(con, user, name, salary, totalDaysOfWork, availablePaidLeave);
             System.out.println("User created with ID: " + userId);
             return userId;
         } catch (Exception e) {
             System.out.println("Failed to create user: " + e.getMessage());
             return -1;
         }
+    }
+
+    @Override
+    public int getUserCountByEmail(String email) throws RemoteException{
+        return User.getUserCountByEmail(con, email);
+    }
+
+    @Override
+    public User getUserByEmail(String email) throws RemoteException{
+        return User.getUserByEmail(con, email);
     }
 
     @Override
@@ -160,6 +171,11 @@ public class DataRetrievalServer extends UnicastRemoteObject implements DataRetr
         }
     }
 
+    @Override
+    public List<Payroll> retrievePayrollList() throws RemoteException{
+        return Payroll.getPayrollList(con);
+    }
+
     // Leave Application Methods
     @Override
     public boolean createLeaveApplication(LeaveApplication leaveApplication) throws RemoteException {
@@ -174,7 +190,27 @@ public class DataRetrievalServer extends UnicastRemoteObject implements DataRetr
     }
 
     @Override
-    public List<LeaveApplication> retrieveLeaveApplication(int userId) throws RemoteException {
+    public List<LeaveApplication> retrieveLeaveApplication() throws RemoteException{
+        return LeaveApplication.retrieveLeaveApplication(con);
+    }
+
+    @Override
+    public LeaveApplication getLeaveApplicationByLeaveApplicationId(int leaveApplication_id) throws RemoteException{
+        return LeaveApplication.getLeaveApplicationByLeaveApplicationId(con, leaveApplication_id);
+    }
+
+    @Override
+    public boolean deleteLeaveApplication(int leaveApplication_id) throws RemoteException{
+        return LeaveApplication.deleteLeaveApplication(con, leaveApplication_id);
+    }
+
+    @Override
+    public List<LeaveApplication> retrieveLeaveApplicationByUserIdAndStartDateAndEndDateAndLeaveType(int user_id, Date startDate, Date endDate, String type) throws RemoteException{
+        return LeaveApplication.retrieveLeaveApplicationByUserIdAndStartDateAndEndDateAndLeaveType(con, user_id, startDate, endDate, type);
+    }
+
+    @Override
+    public List<LeaveApplication> retrieveLeaveApplicationByUserId(int userId) throws RemoteException {
         return LeaveApplication.getLeaveByUserId(con, userId);
     }
 

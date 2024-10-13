@@ -12,6 +12,7 @@ public class LeaveApplication implements Serializable {
     
     private static final long serialVersionUID = 1L;
 
+    private int leaveApplicationId;
     private int userId;
     private Date date; // Using java.sql.Date for database compatibility
     private int numberOfDays;
@@ -19,7 +20,8 @@ public class LeaveApplication implements Serializable {
     private String status; // e.g., "pending", "approved", "rejected"
 
     // Constructor for creating a new leave application
-    public LeaveApplication(int userId, Date date, int numberOfDays, String type, String status) {
+    public LeaveApplication(int leaveApplicationId, int userId, Date date, int numberOfDays, String type, String status) {
+        this.leaveApplicationId = leaveApplicationId;
         this.userId = userId;
         this.date = date;
         this.numberOfDays = numberOfDays;
@@ -31,6 +33,8 @@ public class LeaveApplication implements Serializable {
     public int getUserId() {
         return userId;
     }
+
+    public int getLeaveApplicationId(){return leaveApplicationId;};
 
     public Date getDate() {
         return date;
@@ -94,6 +98,7 @@ public class LeaveApplication implements Serializable {
 
             while (rs.next()) {
                 LeaveApplication leaveApplication = new LeaveApplication(
+                        rs.getInt("leaveApplication_id"),
                         rs.getInt("user_id"),
                         rs.getDate("date"),
                         rs.getInt("number_of_days"),
@@ -110,11 +115,10 @@ public class LeaveApplication implements Serializable {
 
     // Method to update leave application status
     public static void updateLeaveStatus(Connection con, LeaveApplication leaveApplication) {
-        String updateQuery = "UPDATE leave_application SET status = ? WHERE user_id = ? AND date = ?";
+        String updateQuery = "UPDATE leave_application SET status = ? WHERE application_id = ?";
         try (PreparedStatement pstmt = con.prepareStatement(updateQuery)) {
             pstmt.setString(1, leaveApplication.getStatus());
-            pstmt.setInt(2, leaveApplication.getUserId());
-            pstmt.setDate(3, leaveApplication.getDate()); // Set the date parameter
+            pstmt.setInt(2, leaveApplication.getLeaveApplicationId());
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
@@ -141,4 +145,104 @@ public class LeaveApplication implements Serializable {
             System.out.println("Failed to reset leave applications: " + e.getMessage());
         }
     }
+
+
+    public static List<LeaveApplication> retrieveLeaveApplication(Connection con) {
+        String selectQuery = "SELECT * FROM leave_application";
+        List<LeaveApplication> leaveApplications = new ArrayList<>();
+
+        try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                LeaveApplication leaveApplication = new LeaveApplication(
+                        rs.getInt("leaveApplication_id"),
+                        rs.getInt("user_id"),
+                        rs.getDate("date"),
+                        rs.getInt("number_of_days"),
+                        rs.getString("type"),
+                        rs.getString("status")
+                );
+                leaveApplications.add(leaveApplication);
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve leave applications: " + e.getMessage());
+        }
+        return leaveApplications;
+    }
+
+    public static LeaveApplication getLeaveApplicationByLeaveApplicationId(Connection con, int leaveApplicationId) {
+        String selectQuery = "SELECT * FROM leave_application Where leaveApplication_id = ?";
+        try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
+            pstmt.setInt(1, leaveApplicationId);
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                return new LeaveApplication(
+                        rs.getInt("leaveApplication_id"),
+                        rs.getInt("user_id"),
+                        rs.getDate("date"),
+                        rs.getInt("number_of_days"),
+                        rs.getString("type"),
+                        rs.getString("status")
+                );
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to retrieve leave applications: " + e.getMessage());
+        }
+        return null;
+    }
+
+    public static boolean deleteLeaveApplication(Connection con, int leaveApplicationId) {
+        String deleteQuery = "DELETE FROM leave_application WHERE leaveApplication_id = ?"; // Deletes all records
+
+        try (PreparedStatement pstmt = con.prepareStatement(deleteQuery)) {
+            pstmt.setInt(1, leaveApplicationId);
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                System.out.println("Leave applications reset successfully!");
+                return true;
+            } else {
+                System.out.println("No leave applications to reset.");
+                return false;
+            }
+        } catch (SQLException e) {
+            System.out.println("Failed to reset leave applications: " + e.getMessage());
+        }
+        return false;
+    }
+
+    public static List<LeaveApplication> retrieveLeaveApplicationByUserIdAndStartDateAndEndDateAndLeaveType(Connection con, int userId, Date startDate, Date endDate, String type) {
+        String selectQuery = "SELECT * FROM leave_application WHERE user_id = ? AND type = ? AND date BETWEEN ? AND ?";
+        List<LeaveApplication> leaveApplications = new ArrayList<>();
+
+        try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
+            pstmt.setInt(1, userId);
+            pstmt.setString(2, type);
+            pstmt.setDate(3, startDate);
+            pstmt.setDate(4, endDate);
+
+            ResultSet rs = pstmt.executeQuery();
+            while (rs.next()) {
+                LeaveApplication leaveApplication = new LeaveApplication(
+                        rs.getInt("leaveApplication_id"),
+                        rs.getInt("user_id"),
+                        rs.getDate("date"),
+                        rs.getInt("number_of_days"),
+                        rs.getString("type"),
+                        rs.getString("status")
+                );
+                leaveApplications.add(leaveApplication);
+            }
+        } catch (SQLException e) {
+            System.err.println("Failed to retrieve leave applications: " + e.getMessage());
+            // Optionally, you can also log this error or rethrow it if necessary
+        }
+
+        return leaveApplications;
+    }
+
+
+
+
+
+
 }

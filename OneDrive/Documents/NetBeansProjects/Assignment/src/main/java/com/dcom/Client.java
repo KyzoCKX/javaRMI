@@ -32,11 +32,11 @@ public class Client {
 //                    System.out.println("Payroll ID: " + payroll.getPayrollId() + ", Total Paid: " + payroll.getTotalPaid());
 //            }
 
-              int user_id =  rmiService.createUser(new User("testing1", "active", "employee", "testing1@gmail.com"));
-              if(user_id == 0){
-                  System.err.println("Null");
-              }
-              System.err.println(user_id);
+//              int user_id =  rmiService.createUser(new User("testing1", "active", "employee", "testing1@gmail.com"));
+//              if(user_id == 0){
+//                  System.err.println("Null");
+//              }
+              //System.err.println(user_id);
 //              System.err.println(user.getEmail() + " pwd" + user.getPwd() + " status" + user.getStatus() + " user type" + user.getUserType());
 //            List<User> users = rmiService.retrieveAllUser();
 //                for (User user : users) {

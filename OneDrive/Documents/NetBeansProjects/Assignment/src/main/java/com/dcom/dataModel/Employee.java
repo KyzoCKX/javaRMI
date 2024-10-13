@@ -33,15 +33,15 @@ public class Employee implements Serializable{
     }
 
     // Insert Employee automatically when User is created
-    public static void createEmployee(Connection con, int userId) {
+    public static void createEmployee(Connection con, int userId, String name, double salary, int totalDaysOfWork, int availablePaidLeave) {
         String insertQuery = "INSERT INTO employee (user_id, name, salary, total_days_of_work, available_paid_leave) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement pstmt = con.prepareStatement(insertQuery);
             pstmt.setInt(1, userId);
-            pstmt.setString(2, "unknown"); // Default name
-            pstmt.setDouble(3, 0);         // Default salary
-            pstmt.setInt(4, 20);           // Default total days of work
-            pstmt.setInt(5, 10);           // Default available paid leave
+            pstmt.setString(2, name); // Default name
+            pstmt.setDouble(3, salary);         // Default salary
+            pstmt.setInt(4, totalDaysOfWork);           // Default total days of work
+            pstmt.setInt(5, availablePaidLeave);           // Default available paid leave
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
