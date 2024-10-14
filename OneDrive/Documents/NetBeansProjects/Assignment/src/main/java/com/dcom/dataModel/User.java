@@ -143,7 +143,7 @@ public class User implements Serializable{
 
     // Method to update a user's information
     public static void updateUser(Connection con, User user) {
-        String updateQuery = "UPDATE public.user SET pwd = ?, status = ?, userType = ? WHERE userId = ?";
+        String updateQuery = "UPDATE public.user SET pwd = ?, status = ?, usertype = ? WHERE user_id = ?";
         try (PreparedStatement pstmt = con.prepareStatement(updateQuery)) {
             pstmt.setString(1, user.getPwd());
             pstmt.setString(2, user.getStatus());
