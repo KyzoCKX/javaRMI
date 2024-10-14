@@ -18,15 +18,17 @@ public class LeaveApplication implements Serializable {
     private int numberOfDays;
     private String type; // e.g., "annual", "sick", etc.
     private String status; // e.g., "pending", "approved", "rejected"
+    private String reason;
 
     // Constructor for creating a new leave application
-    public LeaveApplication(int leaveApplicationId, int userId, Date date, int numberOfDays, String type, String status) {
+    public LeaveApplication(int leaveApplicationId, int userId, Date date, int numberOfDays, String type, String status, String reason) {
         this.leaveApplicationId = leaveApplicationId;
         this.userId = userId;
         this.date = date;
         this.numberOfDays = numberOfDays;
         this.type = type;
         this.status = status;
+        this.reason = reason;
     }
 
     // Getters and Setters
@@ -43,6 +45,7 @@ public class LeaveApplication implements Serializable {
     public void setDate(Date date) {
         this.date = date;
     }
+    public void setReason(String reason){this.reason = reason;}
 
     public int getNumberOfDays() {
         return numberOfDays;
@@ -55,6 +58,7 @@ public class LeaveApplication implements Serializable {
     public String getType() {
         return type;
     }
+    public String getReason(){return reason;}
 
     public void setType(String type) {
         this.type = type;
@@ -70,13 +74,14 @@ public class LeaveApplication implements Serializable {
 
     // Method to apply for leave (insert into the database)
     public static void applyLeave(Connection con, LeaveApplication leaveApp) {
-        String insertQuery = "INSERT INTO leave_application (user_id, date, number_of_days, type, status) VALUES (?, ?, ?, ?, ?)";
+        String insertQuery = "INSERT INTO leave_application (user_id, date, number_of_days, type, status, reason) VALUES (?, ?, ?, ?, ?, ?)";
         try (PreparedStatement pstmt = con.prepareStatement(insertQuery)) {
             pstmt.setInt(1, leaveApp.getUserId());
             pstmt.setDate(2, leaveApp.getDate());
             pstmt.setInt(3, leaveApp.getNumberOfDays());
             pstmt.setString(4, leaveApp.getType());
             pstmt.setString(5, leaveApp.getStatus());
+            pstmt.setString(6, leaveApp.getReason());
 
             int rowsInserted = pstmt.executeUpdate();
             if (rowsInserted > 0) {
@@ -103,7 +108,8 @@ public class LeaveApplication implements Serializable {
                         rs.getDate("date"),
                         rs.getInt("number_of_days"),
                         rs.getString("type"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getString("reason")
                 );
                 leaveApplications.add(leaveApplication); // Add to the list
             }
@@ -160,7 +166,8 @@ public class LeaveApplication implements Serializable {
                         rs.getDate("date"),
                         rs.getInt("number_of_days"),
                         rs.getString("type"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getString("reason")
                 );
                 leaveApplications.add(leaveApplication);
             }
@@ -182,7 +189,8 @@ public class LeaveApplication implements Serializable {
                         rs.getDate("date"),
                         rs.getInt("number_of_days"),
                         rs.getString("type"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getString("reason")
                 );
             }
         } catch (SQLException e) {
@@ -228,7 +236,8 @@ public class LeaveApplication implements Serializable {
                         rs.getDate("date"),
                         rs.getInt("number_of_days"),
                         rs.getString("type"),
-                        rs.getString("status")
+                        rs.getString("status"),
+                        rs.getString("reason")
                 );
                 leaveApplications.add(leaveApplication);
             }
