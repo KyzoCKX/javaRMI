@@ -231,7 +231,7 @@ public class User implements Serializable{
     }
 
     public static User getUserByEmail(Connection con, String email) {
-        String selectQuery = "SELECT * FROM public.user WHERE email = ? AND pwd = ? AND userType = ?";
+        String selectQuery = "SELECT * FROM public.user WHERE email = ?";
         try (PreparedStatement pstmt = con.prepareStatement(selectQuery)) {
             pstmt.setString(1, email);
 
