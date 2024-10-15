@@ -55,12 +55,13 @@ public class Employee implements Serializable{
     // Update Employee details
     public static void updateEmployee(Connection con, Employee employee) {
         String updateQuery = "UPDATE employee SET name = ?, salary = ?, available_paid_leave = ? WHERE user_id = ?";
+        System.out.println("available paid leave: " + employee.getAvailablePaidLeave());
         try {
             PreparedStatement pstmt = con.prepareStatement(updateQuery);
             pstmt.setString(1, employee.getName());
             pstmt.setDouble(2, employee.getSalary());
-            pstmt.setInt(3, employee.getUserId());
-            pstmt.setInt(4, employee.getAvailablePaidLeave());
+            pstmt.setInt(3, employee.getAvailablePaidLeave());
+            pstmt.setInt(4, employee.getUserId());
 
             int rowsAffected = pstmt.executeUpdate();
             if (rowsAffected > 0) {
