@@ -121,7 +121,7 @@ public class LeaveApplication implements Serializable {
 
     // Method to update leave application status
     public static void updateLeaveStatus(Connection con, LeaveApplication leaveApplication) {
-        String updateQuery = "UPDATE leave_application SET status = ? WHERE application_id = ?";
+        String updateQuery = "UPDATE leave_application SET status = ? WHERE leave_application_id = ?";
         try (PreparedStatement pstmt = con.prepareStatement(updateQuery)) {
             pstmt.setString(1, leaveApplication.getStatus());
             pstmt.setInt(2, leaveApplication.getLeaveApplicationId());
