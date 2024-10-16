@@ -22,7 +22,7 @@ public class ServiceLocator {
     public static LoginService getLoginService() {
         if (loginService == null) {
             try {
-                Registry authServiceRegistry = LocateRegistry.getRegistry("192.168.196.186", 8080);
+                Registry authServiceRegistry = LocateRegistry.getRegistry("localhost", 8080);
                 loginService = (LoginService) authServiceRegistry.lookup("loginService");
                 // loginService = (LoginService)Naming.lookup("192.168.196.186:8080/loginService");
                 userService = (UserService) authServiceRegistry.lookup("userService");
@@ -72,7 +72,7 @@ public class ServiceLocator {
     public static PayrollService getPayrollService() {
         if (payrollService == null) {
             try {
-                Registry payrollServiceRegistry = LocateRegistry.getRegistry("192.168.196.186", 8082);
+                Registry payrollServiceRegistry = LocateRegistry.getRegistry("localhost", 8082);
                 payrollService = (PayrollService) payrollServiceRegistry.lookup("payrollService");
             } catch (Exception e) {
                 // e.printStackTrace();
