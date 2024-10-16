@@ -26,7 +26,7 @@ public class Main {
             } else {
                 // System.out.println("Token is present: " + token);
                 System.out.println("Welcome back to DHEL payroll system!");
-                if ("HR".equals(Token.getDecodedToken().getUserType())) {
+                if ("HR".equals(Token.getDecodedToken().getUserType().toUpperCase())) {
                     System.out.println("Navigating to HR Portal....................");
                     Navigator.navigateToHRPortal();
                 }

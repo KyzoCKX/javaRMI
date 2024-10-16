@@ -99,7 +99,7 @@ public class ManageLeaveApplicationPage {
                             leaveApplication.getLeaveApplicationId(),
                             leaveApplication.getUserId(),
                             leaveApplication.getType(),
-                            truncate(leaveApplication.getReason(), 20),  
+                            truncate(leaveApplication.getReason(), 50),  
                             leaveApplication.getDate(),
                             leaveApplication.getNumberOfDays(),
                             leaveApplication.getStatus());

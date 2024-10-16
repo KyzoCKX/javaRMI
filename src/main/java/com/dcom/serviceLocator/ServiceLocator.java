@@ -6,6 +6,7 @@ import com.dcom.rmi.EmployeeManagementService;
 import com.dcom.rmi.LeaveApplicationService;
 import com.dcom.rmi.PayrollService;
 
+import java.rmi.Naming;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -21,8 +22,9 @@ public class ServiceLocator {
     public static LoginService getLoginService() {
         if (loginService == null) {
             try {
-                Registry authServiceRegistry = LocateRegistry.getRegistry("localhost", 8080);
+                Registry authServiceRegistry = LocateRegistry.getRegistry("192.168.196.186", 8080);
                 loginService = (LoginService) authServiceRegistry.lookup("loginService");
+                // loginService = (LoginService)Naming.lookup("192.168.196.186:8080/loginService");
                 userService = (UserService) authServiceRegistry.lookup("userService");
             } catch (Exception e) {
                 // e.printStackTrace();
@@ -34,7 +36,7 @@ public class ServiceLocator {
     public static UserService getUserService() {
         if (userService == null) {
             try {
-                Registry authServiceRegistry = LocateRegistry.getRegistry("localhost", 8080);
+                Registry authServiceRegistry = LocateRegistry.getRegistry("192.168.196.186", 8080);
                 userService = (UserService) authServiceRegistry.lookup("userService");
             } catch (Exception e) {
                 // e.printStackTrace();
@@ -46,7 +48,7 @@ public class ServiceLocator {
     public static EmployeeManagementService getEmployeeManagementService() {
         if (employeeManagementService == null) {
             try {
-                Registry employeeServiceRegistry = LocateRegistry.getRegistry("localhost", 8081);
+                Registry employeeServiceRegistry = LocateRegistry.getRegistry("192.168.196.186", 8081);
                 employeeManagementService = (EmployeeManagementService) employeeServiceRegistry.lookup("employeeManagementService");
             } catch (Exception e) {
                 // e.printStackTrace();
@@ -58,7 +60,7 @@ public class ServiceLocator {
     public static LeaveApplicationService getLeaveApplicationService() {
         if (leaveApplicationService == null) {
             try {
-                Registry leaveApplicationServiceRegistry = LocateRegistry.getRegistry("localhost", 8083);
+                Registry leaveApplicationServiceRegistry = LocateRegistry.getRegistry("192.168.196.186", 8083);
                 leaveApplicationService = (LeaveApplicationService) leaveApplicationServiceRegistry.lookup("leaveApplicationService");
             } catch (Exception e) {
                 // e.printStackTrace();
@@ -70,7 +72,7 @@ public class ServiceLocator {
     public static PayrollService getPayrollService() {
         if (payrollService == null) {
             try {
-                Registry payrollServiceRegistry = LocateRegistry.getRegistry("localhost", 8082);
+                Registry payrollServiceRegistry = LocateRegistry.getRegistry("192.168.196.186", 8082);
                 payrollService = (PayrollService) payrollServiceRegistry.lookup("payrollService");
             } catch (Exception e) {
                 // e.printStackTrace();
