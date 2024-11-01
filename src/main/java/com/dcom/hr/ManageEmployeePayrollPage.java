@@ -86,7 +86,7 @@ public class ManageEmployeePayrollPage {
     
             if (payrolls != null && !payrolls.isEmpty()) {
                 
-                payrolls.sort((a, b) -> Integer.compare(a.getUserId(), b.getUserId()));
+                payrolls.sort((a, b) -> Integer.compare(a.getPayrollId(), b.getPayrollId()));
     
                 printTableHeader();
     
@@ -175,6 +175,10 @@ public class ManageEmployeePayrollPage {
                 if (Main.scanner.hasNextInt()) {
                     payrollId = Main.scanner.nextInt();
                     Main.scanner.nextLine(); 
+                    if(payrollId <= 0) {
+                        System.out.println("Invalid input. Please enter a valid Payroll ID (integer).");
+                        continue;
+                    }
                     break;
                 } else {
                     System.out.println("Invalid input. Please enter a valid Payroll ID (integer).");

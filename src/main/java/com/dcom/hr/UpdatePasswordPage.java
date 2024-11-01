@@ -4,6 +4,7 @@ import com.dcom.Main;
 import com.dcom.rmi.UserService;
 import com.dcom.serviceLocator.ServiceLocator;
 import com.dcom.utils.Token;
+import com.dcom.utils.Validator;
 import java.rmi.RemoteException;
 import java.util.Scanner;
 
@@ -28,8 +29,16 @@ public class UpdatePasswordPage {
 
         System.out.println("Enter your current password:");
         String currentPassword = Main.scanner.nextLine();
+        while(!Validator.isValidPassword(currentPassword)) {
+            System.out.println("Invalid password. Please enter a valid password to continue:");
+            currentPassword = Main.scanner.nextLine();
+        }
         System.out.println("Enter your new password:");
         String newPassword = Main.scanner.nextLine();
+        while(!Validator.isValidPassword(newPassword)) {
+            System.out.println("Invalid password. Please enter a valid password to continue:");
+            newPassword = Main.scanner.nextLine();
+        }
 
         try {
             boolean updated = userService.updatePassword(Token.getDecodedToken().getTokenString(), currentPassword, newPassword);

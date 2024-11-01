@@ -5,6 +5,7 @@ import com.dcom.rmi.EmployeeManagementService;
 import com.dcom.serviceLocator.ServiceLocator;
 import com.dcom.dataModel.Employee;
 import com.dcom.utils.Token;
+import com.dcom.utils.Validator;
 import java.rmi.RemoteException;
 
 public class UpdateEmployeeSalary {
@@ -35,6 +36,10 @@ public class UpdateEmployeeSalary {
             if (Main.scanner.hasNextInt()) {
                 userId = Main.scanner.nextInt();  
                 Main.scanner.nextLine(); 
+                if(userId < 0) {
+                    System.out.println("Invalid input. Please enter a valid User ID (integer).");
+                    continue;
+                }
                 break; 
             } else {
                 System.out.println("Invalid input. Please enter a valid User ID (integer).");
@@ -47,9 +52,13 @@ public class UpdateEmployeeSalary {
             if (Main.scanner.hasNextInt()) {
                 newSalary = Main.scanner.nextInt();  
                 Main.scanner.nextLine(); 
+                if(newSalary <= 0) {
+                    System.out.println("Invalid salary. Please enter a valid salary (integer).");
+                    continue;
+                }
                 break; 
             } else {
-                System.out.println("Invalid input. Please enter a valid salary (integer).");
+                System.out.println("Invalid salary. Please enter a valid salary (integer).");
                 Main.scanner.nextLine(); 
             }
         }

@@ -4,6 +4,7 @@ import com.dcom.Main;
 import com.dcom.rmi.EmployeeManagementService;
 import com.dcom.serviceLocator.ServiceLocator;
 import com.dcom.utils.Token;
+import com.dcom.utils.Validator;
 import java.rmi.RemoteException;
 import java.util.AbstractMap;
 import java.util.Scanner;
@@ -31,25 +32,39 @@ public class CreateEmployeeAccountPage {
         System.out.println("Create New Employee Account");
         System.out.print("Enter employee name: ");
         String name = Main.scanner.nextLine();
+        while (!Validator.isValidName(name)) {
+            System.out.println("Invalid name. Please enter a valid name to continue:");
+            name = Main.scanner.nextLine();
+        }
 
         System.out.print("Enter employee email: ");
         String email = Main.scanner.nextLine();
+        while (!Validator.isValidEmail(email)) {
+            System.out.println("Invalid email. Please enter a valid email to continue:");
+            email = Main.scanner.nextLine();
+        }
 
         String userType = getUserType();
 
         System.out.print("Enter employee password: ");
         String pwd = Main.scanner.nextLine();
+        while (!Validator.isValidPassword(pwd)) {
+            System.out.println("Invalid password. Please enter a valid password to continue:");
+            pwd = Main.scanner.nextLine();
+        }
 
         System.out.print("Enter employee salary: ");
-        double salary = Main.scanner.nextDouble();
-
-        Main.scanner.nextLine(); // Consume the newline character
+        String salary = Main.scanner.nextLine();
+        while (!Validator.isPositiveDouble(salary)) {
+            System.out.println("Invalid salary. Please enter a valid salary to continue:");
+            salary = Main.scanner.nextLine();
+        }
 
 
         String token = Token.getDecodedToken().getTokenString();  
 
         try {
-            AbstractMap.Entry<Boolean, String> result = employeeService.createUser(token, email, userType, pwd, name, salary);
+            AbstractMap.Entry<Boolean, String> result = employeeService.createUser(token, email, userType, pwd, name, Double.parseDouble(salary));
             if (result.getKey()) {
                 System.out.println("Employee created successfully.");
             } else if(result.getValue().equals("invalid request")){

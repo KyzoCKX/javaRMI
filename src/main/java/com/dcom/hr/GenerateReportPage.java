@@ -47,7 +47,7 @@ public class GenerateReportPage {
     
             while (true) {
                 AsciiArt.printDivider();
-                System.out.println("======== Generate Report =========");
+                System.out.println("====== Generate PDF Report =======");
                 System.out.println("1. Export Employee Report");
                 System.out.println("2. Export Leave Application Report");
                 System.out.println("3. Export Payroll Report");

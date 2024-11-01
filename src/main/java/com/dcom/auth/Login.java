@@ -3,6 +3,7 @@ package com.dcom.auth;
 import com.dcom.Main;
 import com.dcom.rmi.LoginService;
 import com.dcom.serviceLocator.ServiceLocator;
+import com.dcom.utils.Validator;
 import com.dcom.utils.Navigator;
 import com.dcom.utils.Token;
 import java.rmi.Naming;
@@ -29,8 +30,21 @@ public class Login {
 
         while (!loggedIn) {
             String email = Main.scanner.nextLine();
+            if (!Validator.isValidEmail(email)) {
+                System.out.println("Invalid email. Please enter a valid email to continue:");
+                continue;
+            }
             System.out.println("Enter password to continue:");
-            String password = Main.scanner.nextLine();
+            boolean passwordIsValid = false;
+            String password = null;
+            while (!passwordIsValid) {
+                password = Main.scanner.nextLine();
+                if (!Validator.isValidPassword(password)) {
+                    System.out.println("Invalid password. Please enter a valid password to continue:");
+                    continue;
+                }
+                passwordIsValid = true;
+            }
 
             try {
                 String token = loginService.login(email, password);

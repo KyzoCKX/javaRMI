@@ -5,6 +5,7 @@ import com.dcom.rmi.LeaveApplicationService;
 import com.dcom.rmi.EmployeeManagementService;
 import com.dcom.serviceLocator.ServiceLocator;
 import com.dcom.utils.Token;
+import com.dcom.utils.Validator;
 import java.rmi.RemoteException;
 import com.dcom.dataModel.LeaveApplication;
 import com.dcom.dataModel.Employee;
@@ -85,7 +86,7 @@ public class ManageLeaveApplicationPage {
             // System.out.println("Leave Applications: " + leaveApplications);
             if (leaveApplications != null && !leaveApplications.isEmpty()) {
 
-                leaveApplications.sort((a, b) -> Integer.compare(a.getUserId(), b.getUserId()));
+                leaveApplications.sort((a, b) -> Integer.compare(a.getLeaveApplicationId(), b.getLeaveApplicationId()));
 
                 System.out.println("┌──────────┬──────────┬───────────────┬──────────────────────────────┬────────────┬──────────┬──────────┐");
                 System.out.printf("│ %-8s │ %-8s │ %-13s │ %-28s │ %-10s │ %-8s │ %-8s │%n",
@@ -126,7 +127,11 @@ public class ManageLeaveApplicationPage {
                 System.out.println("Enter the Leave ID of the leave application you want to approve: ");
                 if (Main.scanner.hasNextInt()) {
                     leaveId = Main.scanner.nextInt();  
-                    Main.scanner.nextLine();   
+                    Main.scanner.nextLine();
+                    if(leaveId <= 0) {
+                        System.out.println("Invalid input. Please enter a valid Leave ID (integer).");
+                        continue;
+                    }
                     break; 
                 } else {
                     System.out.println("Invalid input. Please enter a valid Leave ID (integer).");
@@ -187,6 +192,10 @@ public class ManageLeaveApplicationPage {
                 if (Main.scanner.hasNextInt()) {
                     leaveId = Main.scanner.nextInt();  
                     Main.scanner.nextLine(); 
+                    if(leaveId <= 0) {
+                        System.out.println("Invalid input. Please enter a valid Leave ID (integer).");
+                        continue;
+                    }
                     break; 
                 } else {
                     System.out.println("Invalid input. Please enter a valid Leave ID (integer).");

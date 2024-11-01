@@ -35,7 +35,11 @@ public class SearchEmployeePage {
             System.out.print("Enter User Id: ");
             if (Main.scanner.hasNextInt()) {
                 userId = Main.scanner.nextInt();  
-                Main.scanner.nextLine();   
+                Main.scanner.nextLine();  
+                if(userId < 0) {
+                    System.out.println("Invalid input. Please enter a valid User ID (integer).");
+                    continue;
+                }
                 break; 
             } else {
                 System.out.println("Invalid input. Please enter a valid User ID (integer).");

@@ -31,13 +31,14 @@ public class ViewAllEmployeePage {
         try {
             String token = Token.getDecodedToken().getTokenString();
             List<Employee> employees = employeeService.retrieveAllEmployee(token);
-
             if(employees == null) {
                 System.out.println("Token Expired.");
                 Token.clearToken();
                 Token.deleteTokenFile("tokenFile.dat");
                 return;
             }
+            employees.sort((e1, e2) -> Integer.compare(e1.getUserId(), e2.getUserId()));
+
 
             System.out.println(employees.size() + " employees found.");
             

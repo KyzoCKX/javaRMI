@@ -19,7 +19,7 @@ public class HRMenu {
 
             AsciiArt.printDivider();
 
-            System.out.println("========== HR Portal _ Main Menu ==========");
+            System.out.println("========== HR Portal - Main Menu ==========");
             System.out.println("1. Update Password");
             System.out.println("2. Create New Employee Account");
             System.out.println("3. View All Employees");
@@ -27,7 +27,7 @@ public class HRMenu {
             System.out.println("5. Update Employee Salary");
             System.out.println("6. Manage Leave Application");
             System.out.println("7. Manage Employee Payroll");
-            System.out.println("8. Generate Report");
+            System.out.println("8. Generate PDF Report");
             System.out.println("0. Logout");
             System.out.println("======== Enter number to continue =========");
 
