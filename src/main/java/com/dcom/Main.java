@@ -14,7 +14,6 @@ public class Main {
     public static void main(String[] args) {
         while(true){
             AsciiArt.printDHEL();
-            Token token = new Token();
             File tokenFile = new File("tokenFile.dat");
             if (tokenFile.exists()) {
                 Token.loadFromFile("tokenFile.dat"); 
@@ -29,6 +28,13 @@ public class Main {
                 if ("HR".equals(Token.getDecodedToken().getUserType().toUpperCase())) {
                     System.out.println("Navigating to HR Portal....................");
                     Navigator.navigateToHRPortal();
+                } else if("Employee".equals(Token.getDecodedToken().getUserType())) {
+                    System.out.println("Navigating to Employee Portal....................");
+                    Navigator.navigateToEmployeePortal();
+                } else {
+                    System.out.println("Invalid user type. Please contact administrator.");
+                    Token.clearToken();
+                    Token.deleteTokenFile("tokenFile.dat");
                 }
             }
         }

@@ -3,16 +3,16 @@ package com.dcom.utils;
 import java.util.Scanner;
 
 import com.dcom.hr.HRMenu;
-//import com.dcom.employee.EmployeePortal;
+import com.dcom.employee.EmployeeMenu;
 public class Navigator {
 
     public static void navigateToHRPortal() {
-        HRMenu hrMenu = new HRMenu();
-        hrMenu.showMenu();  // Show HR menu after successful login
+        HRMenu hrPortal = new HRMenu();
+        hrPortal.showMenu();  // Show HR menu after successful login
     }
 
-//    public static void navigateToEmployeePortal() {
-//        EmployeePortal employeePortal = new EmployeePortal();
-//        employeePortal.showMenu();  // Show Employee menu after successful login
-//    }
+   public static void navigateToEmployeePortal() {
+       EmployeeMenu employeePortal = new EmployeeMenu();
+       employeePortal.showMenu();  // Show Employee menu after successful login
+   }
 }

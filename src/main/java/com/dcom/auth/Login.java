@@ -55,12 +55,35 @@ public class Login {
                         Token.setDecodedToken(Token.decodeToken());
                         Token.saveToFile("tokenFile.dat");
                         loggedIn = true;
-                        Navigator.navigateToHRPortal();
+                        switch(Token.getDecodedToken().getUserType()) {
+                            case "HR":
+                                System.out.println("Navigating to HR Portal....................");
+                                Navigator.navigateToHRPortal();
+                                break;
+                            case "Employee":
+                                System.out.println("Navigating to Employee Portal....................");
+                                Navigator.navigateToEmployeePortal();
+                                break;
+                            default:
+                                System.out.println("Invalid user type. Please contact administrator.");
+                                Token.clearToken();
+                                Token.deleteTokenFile("tokenFile.dat");
+                        }
                     }
                     else if ("HR".equals(Token.getDecodedToken().getUserType())) {
                         System.out.println("Navigating to HR Portal....................");
                         loggedIn = true;
                         Navigator.navigateToHRPortal();
+                    }
+                    else if("Employee".equals(Token.getDecodedToken().getUserType())) {
+                        System.out.println("Navigating to Employee Portal....................");
+                        loggedIn = true;
+                        Navigator.navigateToEmployeePortal();
+                    }
+                    else {
+                        System.out.println("Invalid user type. Please contact administrator.");
+                        Token.clearToken();
+                        Token.deleteTokenFile("tokenFile.dat");
                     }
                 } else {
                     System.out.println("Login failed. Please enter email to try again:");
